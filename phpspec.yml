@@ -1,0 +1,4 @@
+suites:
+  raftalks_suite:
+    namespace: Raftalks\UIX
+    psr4_prefix: Raftalks\UIX

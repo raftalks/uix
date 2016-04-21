@@ -10,5 +10,16 @@
             "name": "Raftalks",
             "email": "raftalks@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Raftalks\\UIX\\": "src"
+        }
+    },
+    "config": {
+        "bin-dir": "vendor/bin"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^2.5"
+    }
 }

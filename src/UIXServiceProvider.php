@@ -14,6 +14,16 @@ use Illuminate\Support\ServiceProvider;
 class UIXServiceProvider extends ServiceProvider
 {
 
+    public function boot()
+    {
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'uix');
+
+        $this->publishes([
+            __DIR__ . '/resources/views' => resource_path('views/vendor/uix'),
+            __DIR__.'/config/uix.php' => config_path('uix.php'),
+        ]);
+    }
+
     /**
      * Register the service provider.
      *
@@ -21,6 +31,8 @@ class UIXServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // TODO: Implement register() method.
+        $this->mergeConfigFrom(
+            __DIR__.'/config/uix.php', 'uix'
+        );
     }
 }

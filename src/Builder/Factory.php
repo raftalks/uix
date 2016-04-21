@@ -12,4 +12,10 @@ class Factory implements BuilderFactory
     {
         return 'current driver';
     }
+
+
+    public function layout()
+    {
+        return 'layout to render here';
+    }
 }

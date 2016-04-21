@@ -20,6 +20,7 @@
         "bin-dir": "vendor/bin"
     },
     "require-dev": {
-        "phpspec/phpspec": "^2.5"
+        "phpspec/phpspec": "^2.5",
+        "laravel/homestead": "^3.0"
     }
 }

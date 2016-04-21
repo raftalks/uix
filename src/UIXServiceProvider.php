@@ -10,6 +10,7 @@ namespace Raftalks\UIX;
 
 
 use Illuminate\Support\ServiceProvider;
+use Raftalks\UIX\Builder\Factory;
 
 class UIXServiceProvider extends ServiceProvider
 {
@@ -34,5 +35,11 @@ class UIXServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/config/uix.php', 'uix'
         );
+
+        $this->app->bind('uix', function($app)
+        {
+            return new Factory();
+        });
+
     }
 }

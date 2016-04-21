@@ -1,0 +1,14 @@
+{
+    "name": "root/uix",
+    "description": "Unified user interface designs for frontend development",
+    "require": {
+        "illuminate/support": "^5.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Raftalks",
+            "email": "raftalks@gmail.com"
+        }
+    ]
+}

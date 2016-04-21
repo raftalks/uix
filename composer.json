@@ -1,5 +1,5 @@
 {
-    "name": "root/uix",
+    "name": "raftalks/uix",
     "description": "Unified user interface designs for frontend development",
     "require": {
         "illuminate/support": "^5.2"
@@ -22,5 +22,6 @@
     "require-dev": {
         "phpspec/phpspec": "^2.5",
         "laravel/homestead": "^3.0"
-    }
+    },
+    "minimum-stability": "dev"
 }

@@ -12,4 +12,7 @@ namespace Raftalks\UIX\Contracts;
 interface BuilderFactory
 {
 
+    public function driver();
+
+    public function layout();
 }

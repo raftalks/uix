@@ -31,9 +31,9 @@ class Factory implements BuilderFactory
     }
 
 
-    public function layout()
+    public function layout($layout)
     {
-        return view('uix::polymer.master');
+        return view('uix::polymer.'.$layout);
     }
     
     

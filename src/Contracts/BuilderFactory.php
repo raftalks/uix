@@ -14,5 +14,5 @@ interface BuilderFactory
 
     public function driver();
 
-    public function layout();
+    public function layout($layout);
 }

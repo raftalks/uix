@@ -21,6 +21,7 @@ class UIXServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/resources/views' => resource_path('views/vendor/uix'),
+            __DIR__ . '/resources/assets' => public_path('vendor/raftalks/uix'),
             __DIR__.'/config/uix.php' => config_path('uix.php'),
         ]);
     }

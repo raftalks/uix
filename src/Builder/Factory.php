@@ -4,6 +4,7 @@ namespace Raftalks\UIX\Builder;
 
 use Illuminate\Support\Facades\Config;
 use Raftalks\UIX\Builder\Bootstrap\Builder as BootstrapDriver;
+use Raftalks\UIX\Builder\Polymer\Builder as PolymerDriver;
 use Raftalks\UIX\Contracts\BuilderFactory;
 
 class Factory implements BuilderFactory
@@ -32,13 +33,19 @@ class Factory implements BuilderFactory
 
     public function layout()
     {
-        return 'layout to render here';
+        return view('uix::polymer.master');
     }
     
     
     public function makeBootstrapDriver()
     {
         return new BootstrapDriver();
+    }
+
+
+    public function makePolymerDriver()
+    {
+        return new PolymerDriver();
     }
 
     protected function getDefaultDriver()

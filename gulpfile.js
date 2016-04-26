@@ -9,5 +9,12 @@ elixir(function(mix) {
         'src/resources/assets/js/uix.polymer.js'
     );
 
+
+    mix.styles([
+        './node_modules/normalize.css/normalize.css'
+    ],
+        'src/resources/assets/css'
+    );
+
     mix.vulcanize('resources/polymer/elements.html', 'src/resources/assets/imports');
 });

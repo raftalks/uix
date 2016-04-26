@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "UIX Development Tool",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "normalize.css": "^4.1.1"
+  },
   "devDependencies": {
     "gulp-vulcanize": "^6.1.0",
     "laravel-elixir": "^6.0.0-1"

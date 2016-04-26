@@ -4,9 +4,9 @@
 
     <meta charset="utf-8">
     <meta name="description" content="">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Polymer App</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
 
     <script src="/vendor/raftalks/uix/js/uix.polymer.js" type="text/javascript"></script>
 

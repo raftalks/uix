@@ -1,31 +1,17 @@
 @extends('uix::polymer.master')
 @section('body')
 <body class="fullbleed vertical layout">
-    <layout-list-detail>
+    <layout-master>
 
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
-            <paper-item></paper-item>
+            @for($i=0; $i<50; $i++)
+                    <paper-card heading="Card Title">
+                            <div class="card-content">Some content</div>
+                            <div class="card-actions">
+                                    <paper-button>Some action</paper-button>
+                            </div>
+                    </paper-card>
 
-
-
-    </layout-list-detail>
+            @endfor
+    </layout-master>
 </body>
 @endsection

@@ -1,0 +1,16 @@
+:host {
+    display: block;
+}
+
+#layout-master-drawer-panel {
+    background-color: #EEE;
+}
+
+.nav {
+    border-right: 1px solid #ccc;
+}
+
+
+.layout-content {
+    padding: 16px 40px;
+}

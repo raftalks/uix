@@ -1,0 +1,33 @@
+<dom-module id="list-view">
+
+    <link rel="import" type="css" href="style.css">
+
+    <template>
+        <paper-scroll-header-panel class="flex">
+            <paper-toolbar class="tall">
+
+                <!-- flex class forces span to fill space between icons -->
+                <div hidden$="[[!title]]" class="middle title">[[ title ]]</div>
+
+
+
+                <content select="paper-tabs, [view-tabs]"></content>
+
+            </paper-toolbar>
+            <div class="content">
+                <content select="[main]"></content>
+            </div>
+        </paper-scroll-header-panel>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'list-view',
+
+            properties: {
+                title : String
+            }
+        });
+    </script>
+
+</dom-module>

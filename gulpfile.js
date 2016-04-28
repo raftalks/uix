@@ -11,6 +11,7 @@ elixir(function(mix) {
 
 
     mix.styles([
+        './resources/assets/sass/app.scss',
         './node_modules/normalize.css/normalize.css'
     ],
         'src/resources/assets/css'

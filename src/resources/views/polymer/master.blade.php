@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/vendor/raftalks/uix/css/all.css">
 
     <link rel="import" href="/vendor/raftalks/uix/imports/elements.html">
-
+    @stack('styles')
 </head>
 @yield('body')
 </html>

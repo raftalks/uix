@@ -25791,9 +25791,6 @@ is separate from validation, and `allowed-pattern` does not affect how the input
 }
 
 
-.layout-content {
-    padding: 16px 40px;
-}
 </style>
 
         <paper-drawer-panel id="layout-master-drawer-panel" responsive-width="1024px">
@@ -25817,7 +25814,7 @@ is separate from validation, and `allowed-pattern` does not affect how the input
                         </paper-toolbar>
 
                         
-                        <div class="layout-content"><content></content></div>
+                        <content></content>
                     </div>
 
                 </paper-drawer-panel>
@@ -25831,6 +25828,58 @@ is separate from validation, and `allowed-pattern` does not affect how the input
     <script>
         Polymer({
             is: 'layout-master'
+        });
+    </script>
+
+</dom-module><dom-module id="list-view" assetpath="layout/views/list-view/">
+
+    
+
+    <template><style>
+:host {
+    /*--paper-scroll-header-panel-full-header : {*/
+        /*background-image: url("/vendor/raftalks/uix/images/modern_material.jpg");*/
+    /*}*/
+}
+
+paper-scroll-header-panel {
+    height: 100%;
+}
+
+paper-scroll-header-panel paper-toolbar {
+    background-image: url("/vendor/raftalks/uix/images/modern_material.jpg");
+    background-position:25% 75%;
+    background-attachment: fixed;
+}
+
+.list-view.title {
+    margin-left:0 !important;
+}
+</style>
+        <paper-scroll-header-panel class="flex">
+            <paper-toolbar class="tall">
+
+                
+                <div hidden$="[[!title]]" class="middle title">[[ title ]]</div>
+
+
+
+                <content select="paper-tabs, [view-tabs]"></content>
+
+            </paper-toolbar>
+            <div class="content">
+                <content select="[main]"></content>
+            </div>
+        </paper-scroll-header-panel>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'list-view',
+
+            properties: {
+                title : String
+            }
         });
     </script>
 

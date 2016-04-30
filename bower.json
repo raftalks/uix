@@ -28,6 +28,8 @@
     "vaadin-combo-box": "^1.1.0-beta1",
     "vaadin-date-picker": "^1.1.0-beta1",
     "vaadin-icons": "^1.0.0-rc1",
-    "vaadin-upload": "^1.1.0-beta1"
+    "vaadin-upload": "^1.1.0-beta1",
+    "carbon-route": "PolymerElements/carbon-route#^0.8.4",
+    "neon-animation": "PolymerElements/neon-animation#^1.2.2"
   }
 }

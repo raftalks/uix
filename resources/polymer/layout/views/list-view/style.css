@@ -17,3 +17,7 @@ paper-scroll-header-panel paper-toolbar {
 .list-view.title {
     margin-left:0 !important;
 }
+
+:host ::content .content {
+    margin: 16px;
+}

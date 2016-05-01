@@ -14,6 +14,7 @@
 
     <link rel="import" href="/vendor/raftalks/uix/imports/elements.html">
     @stack('styles')
+    @stack('styles')
 </head>
 @yield('body')
 </html>

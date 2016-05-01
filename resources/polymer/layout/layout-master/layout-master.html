@@ -6,11 +6,14 @@ Left Nav + List + Detail
     <link rel="import" type="css" href="style.css">
 
     <template>
-
+        <iron-media-query query="(min-width: 1280px)" query-matches="{{isOnLargeScreen}}"></iron-media-query>
         <paper-drawer-panel id="layout-master-drawer-panel" responsive-width="1024px">
 
             <div class="nav" drawer>
                 <!-- Nav Content -->
+                <paper-toolbar>
+                    <div class="title">{{appTitle}}</div>
+                </paper-toolbar>
             </div>
 
             <paper-header-panel class="layout-main" main>
@@ -22,7 +25,7 @@ Left Nav + List + Detail
                         <!-- Main Toolbar -->
                         <paper-toolbar>
                             <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-                            <div class="title">APP Title</div>
+                            <div class="title"><span hidden$="{{isOnLargeScreen}}">{{appTitle}}</span></div>
                             <paper-icon-button icon="communication:comment" paper-drawer-right></paper-icon-button>
                             <paper-icon-button icon="more-vert" paper-drawer-right></paper-icon-button>
                         </paper-toolbar>
@@ -41,7 +44,14 @@ Left Nav + List + Detail
 
     <script>
         Polymer({
-            is: 'layout-master'
+            is: 'layout-master',
+
+            properties : {
+                appTitle : {
+                    type: String,
+                    value: 'App Title'
+                }
+            }
         });
     </script>
 

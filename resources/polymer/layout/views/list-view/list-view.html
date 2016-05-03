@@ -1,23 +1,101 @@
 <dom-module id="list-view">
 
-    <link rel="import" type="css" href="style.css">
-
     <template>
-        <paper-scroll-header-panel class="flex">
-            <paper-toolbar class="tall">
+        <style>
+            :host {
+                display: block;
+            }
 
-                <!-- flex class forces span to fill space between icons -->
-                <div hidden$="[[!title]]" class="middle title">[[ title ]]</div>
+            paper-scroll-header-panel {
+                height: 100%;
+            }
+
+            paper-scroll-header-panel paper-toolbar {
+                background-image: url('/vendor/raftalks/uix/images/modern_material.jpg');
+                background-position:25% 75%;
+                background-attachment: fixed;
+            }
+
+            paper-drawer-panel {
+                top: auto !important;
+            }
+
+            .list-panel {
+                --paper-header-panel-standard-container: {
+                    border-right: 1px solid #ccc;
+                };
+            }
+
+
+            .list {
+                padding: 0;
+            }
+
+            .list paper-item{
+                height: 80px !important;
+                border-bottom: 1px solid #dedede !important;
+                background-color: #fafafa !important;
+            }
+        </style>
+        <iron-media-query query="(min-width: 720px)" query-matches="{{largeScreen}}"></iron-media-query>
+
+
+            <paper-drawer-panel right-drawer id="drawerLayout" responsive-width="720px" drawer-toggle-attribute="list-toggle">
+                <paper-header-panel main class="list-panel">
+
+                    <paper-toolbar>
+                        <div hidden$="[[!title]]" class="middle title">[[ title ]]</div>
+                    </paper-toolbar>
+
+
+                    <paper-menu class="list" on-iron-activate="_listTap">
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                        <paper-item class="list-item"></paper-item>
+                    </paper-menu>
+
+                </paper-header-panel>
+
+                <paper-header-panel drawer>
+                    <paper-toolbar>
+                        <paper-icon-button icon="arrow-back" list-toggle hidden$="{{largeScreen}}"></paper-icon-button>
+                    </paper-toolbar>
+                    <div> Details </div>
+                </paper-header-panel>
+            </paper-drawer-panel>
+
+
+            <!--<paper-toolbar class="tall">-->
+
+                <!--&lt;!&ndash; flex class forces span to fill space between icons &ndash;&gt;-->
+                <!--<div hidden$="[[!title]]" class="middle title">[[ title ]]</div>-->
 
 
 
-                <content select="paper-tabs, [view-tabs]"></content>
+                <!--<content select="paper-tabs, [view-tabs]"></content>-->
 
-            </paper-toolbar>
-            <div class="content">
-                <content select="[main]"></content>
-            </div>
-        </paper-scroll-header-panel>
+            <!--</paper-toolbar>-->
+            <!--<div class="content">-->
+                <!--<content select="[main]"></content>-->
+            <!--</div>-->
+
     </template>
 
     <script>
@@ -25,8 +103,34 @@
             is: 'list-view',
 
             properties: {
-                title : String
+                title : String,
+                largeScreen: {
+                    type: Boolean,
+                    value: false,
+                    observer: 'onScreenSizeChange'
+
+                }
+            },
+
+            onScreenSizeChange : function(isLargeScreen)
+            {
+
+                var drawer = this.$.drawerLayout;
+
+                if(isLargeScreen)
+                {
+                    drawer.setAttribute('drawer-width', '60%');
+                }
+                else
+                {
+                    drawer.setAttribute('drawer-width', '100%');
+                }
+            },
+
+            _listTap : function() {
+                this.$.drawerLayout.openDrawer();
             }
+
         });
     </script>
 

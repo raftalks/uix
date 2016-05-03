@@ -3,40 +3,100 @@ Left Nav + List + Detail
  -->
 <dom-module id="layout-master">
 
-    <link rel="import" type="css" href="style.css">
-
     <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+
+
+
+            #layout-master-drawer-panel {
+                background-color: #EEE;
+            }
+
+            .nav {
+                /*border-right: 1px solid #6f6f6f;*/
+            }
+            
+            .leftdrawer {
+                box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4)
+            }
+
+            .left-sidebar {
+                height:100%;
+            }
+
+            /*paper-header-panel .left-sidebar paper-header-panel {*/
+                /*top: auto !important;*/
+            /*}*/
+
+            .left-sidebar paper-scroll-header-panel {
+                height: 100%;
+                position: inherit;
+            }
+
+            .left-sidebar paper-scroll-header-panel paper-toolbar {
+                background-image: url('/vendor/raftalks/uix/images/modern_material.jpg');
+                background-position:25% 75%;
+                background-attachment: fixed;
+            }
+        </style>
+
         <iron-media-query query="(min-width: 1280px)" query-matches="{{isOnLargeScreen}}"></iron-media-query>
+
         <paper-drawer-panel id="layout-master-drawer-panel" responsive-width="1024px">
 
-            <div class="nav" drawer>
-                <!-- Nav Content -->
-                <paper-toolbar>
-                    <div class="title">{{appTitle}}</div>
-                </paper-toolbar>
+            <div class="leftdrawer" drawer>
+                <paper-header-panel class="flex">
+                    <!-- Nav Content -->
+                    <paper-toolbar>
+                        <div class="title">{{appTitle}}</div>
+                    </paper-toolbar>
+
+                    <div class="left-sidebar">
+                        <paper-scroll-header-panel class="flex">
+                            <paper-toolbar class="medium-tall">
+                                <div class="bottom title">standard</div>
+                            </paper-toolbar>
+                            <div>
+
+                                <paper-menu>
+                                    <paper-item>Inbox</paper-item>
+                                    <paper-item>Starred</paper-item>
+                                    <paper-item>Sent mail</paper-item>
+                                    <paper-item>Drafts</paper-item>
+                                </paper-menu>
+
+                            </div>
+                        </paper-scroll-header-panel>
+                    </div>
+                </paper-header-panel>
             </div>
 
-            <paper-header-panel class="layout-main" main>
-                <paper-drawer-panel drawer-toggle-attribute="paper-drawer-right" right-drawer force-narrow="true">
-                    <div class="nav" drawer>
-                        <!-- Right drawer Content -->
-                    </div>
-                    <div main>
-                        <!-- Main Toolbar -->
-                        <paper-toolbar>
-                            <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-                            <div class="title"><span hidden$="{{isOnLargeScreen}}">{{appTitle}}</span></div>
-                            <paper-icon-button icon="communication:comment" paper-drawer-right></paper-icon-button>
-                            <paper-icon-button icon="more-vert" paper-drawer-right></paper-icon-button>
-                        </paper-toolbar>
 
-                        <!--content area -->
-                        <content></content>
-                    </div>
+            <paper-drawer-panel drawer-toggle-attribute="paper-drawer-right" right-drawer force-narrow="true" main>
+                <div class="nav" drawer>
+                    <!-- Right drawer Content -->
+                </div>
+                <paper-header-panel main>
+                    <!-- Main Toolbar -->
+                    <paper-toolbar>
+                        <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                        <div class="title"><span hidden$="{{isOnLargeScreen}}">{{appTitle}}</span></div>
+                        <paper-icon-button icon="communication:comment" paper-drawer-right></paper-icon-button>
+                        <paper-icon-button icon="more-vert" paper-drawer-right></paper-icon-button>
+                    </paper-toolbar>
 
-                </paper-drawer-panel>
+                    <!--content area -->
+                    <content></content>
 
-            </paper-header-panel>
+                </paper-header-panel>
+
+            </paper-drawer-panel>
+
+
 
         </paper-drawer-panel>
 

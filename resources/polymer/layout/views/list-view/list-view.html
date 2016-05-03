@@ -21,7 +21,7 @@
             }
 
             .list-panel {
-                --paper-header-panel-standard-container: {
+                --paper-scroll-header-container: {
                     border-right: 1px solid #ccc;
                 };
             }
@@ -41,10 +41,10 @@
 
 
             <paper-drawer-panel right-drawer id="drawerLayout" responsive-width="720px" drawer-toggle-attribute="list-toggle">
-                <paper-header-panel main class="list-panel">
+                <paper-scroll-header-panel main class="list-panel">
 
-                    <paper-toolbar>
-                        <div hidden$="[[!title]]" class="middle title">[[ title ]]</div>
+                    <paper-toolbar class="medium-tall">
+                        <div hidden$="[[!title]]" class="bottom title">[[ title ]]</div>
                     </paper-toolbar>
 
 
@@ -71,14 +71,14 @@
                         <paper-item class="list-item"></paper-item>
                     </paper-menu>
 
-                </paper-header-panel>
+                </paper-scroll-header-panel>
 
-                <paper-header-panel drawer>
-                    <paper-toolbar>
+                <paper-scroll-header-panel drawer>
+                    <paper-toolbar class="medium-tall">
                         <paper-icon-button icon="arrow-back" list-toggle hidden$="{{largeScreen}}"></paper-icon-button>
                     </paper-toolbar>
                     <div> Details </div>
-                </paper-header-panel>
+                </paper-scroll-header-panel>
             </paper-drawer-panel>
 
 

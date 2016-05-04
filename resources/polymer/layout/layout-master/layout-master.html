@@ -42,6 +42,15 @@ Left Nav + List + Detail
                 background-position:25% 75%;
                 background-attachment: fixed;
             }
+
+            .appSwitcherSizePosition {
+                position: fixed;
+                top: 0px;
+                right: 16px;
+                width: 300px;
+                height: 360px;
+                overflow: auto;
+            }
         </style>
 
         <iron-media-query query="(min-width: 1280px)" query-matches="{{isOnLargeScreen}}"></iron-media-query>
@@ -85,12 +94,20 @@ Left Nav + List + Detail
                     <paper-toolbar>
                         <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
                         <div class="title"><span hidden$="{{isOnLargeScreen}}">{{appTitle}}</span></div>
-                        <paper-icon-button icon="communication:comment" paper-drawer-right></paper-icon-button>
+                        <paper-icon-button icon="icons:apps" on-tap="handleAppSwitchDiaglog" ></paper-icon-button>
                         <paper-icon-button icon="more-vert" paper-drawer-right></paper-icon-button>
                     </paper-toolbar>
 
                     <!--content area -->
                     <content></content>
+
+                    <paper-dialog class="appSwitcherSizePosition" id="appSwitcher" always-on-top
+                                  on-iron-overlay-opened="_appSwitcherOpened"
+                                  on-iron-overlay-closed="_appSwitcherDismiss">
+                        <paper-dialog-scrollable>
+                            <div>Items here</div>
+                        </paper-dialog-scrollable>
+                    </paper-dialog>
 
                 </paper-header-panel>
 
@@ -111,6 +128,31 @@ Left Nav + List + Detail
                     type: String,
                     value: 'App Title'
                 }
+            },
+
+            handleAppSwitchDiaglog : function()
+            {
+                var appSwitcher = this.$.appSwitcher;
+
+                if(!this.appSwitcherOn)
+                {
+                    appSwitcher.open();
+                }
+                else
+                {
+                    appSwitcher.close();
+                }
+
+            },
+
+            _appSwitcherDismiss: function()
+            {
+                this.appSwitcherOn = false;
+            },
+
+            _appSwitcherOpened: function()
+            {
+                this.appSwitcherOn = true;
             }
         });
     </script>

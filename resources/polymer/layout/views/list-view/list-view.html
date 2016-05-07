@@ -33,6 +33,10 @@
                 };
             }
 
+            .list-panel paper-toolbar .title {
+                margin-left:0px;
+            }
+
 
             .list {
                 padding: 0;
@@ -45,13 +49,11 @@
             }
 
             .list-view-container {
-                background-color: #D2D2D2;
-                box-shadow: inset 2px 2px 5px 1px rgba(0,0,0,0.2);
-                height: 100%;
                 display: flex;
                 flex-direction: column;
                 padding: 8px;
             }
+
 
             paper-button.custom {
                 --paper-button-ink-color: var(--paper-pink-a200);
@@ -107,38 +109,24 @@
                 right: 16px;
             }
         </style>
-        <iron-media-query query="(min-width: 600px)" query-matches="{{largeScreen}}"></iron-media-query>
 
+        <iron-media-query query="(min-width: 1024px)" query-matches="{{largeScreen}}"></iron-media-query>
+        <iron-media-query query="(min-width: 1280px)" query-matches="{{largeDesktopScreen}}"></iron-media-query>
 
-            <paper-drawer-panel right-drawer id="drawerLayout" responsive-width="600px" drawer-toggle-attribute="list-toggle">
+            <paper-drawer-panel right-drawer id="drawerLayout" responsive-width="1024px" drawer-toggle-attribute="list-toggle">
                 <div main class="list-container">
-                    <paper-scroll-header-panel main class="list-panel">
+                    <paper-scroll-header-panel main class="list-panel" fixed="{{largeDesktopScreen}}" condenses="1" condensed-header-height="64">
 
                         <paper-toolbar class="medium-tall">
                             <div hidden$="[[!title]]" class="bottom title">[[ title ]]</div>
                         </paper-toolbar>
 
                         <paper-menu class="list" on-iron-activate="_listTap">
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
-                            <paper-item class="list-item"></paper-item>
+
+                            <template is="dom-repeat" items="{{items}}">
+                                <paper-item class="list-item">{{ item.label }}</paper-item>
+                            </template>
+
                         </paper-menu>
 
                     </paper-scroll-header-panel>
@@ -146,35 +134,20 @@
                     <paper-fab icon="add" class="bottom-right" elevation="1"></paper-fab>
                 </div>
 
-                <paper-scroll-header-panel drawer>
+                <paper-scroll-header-panel drawer fixed="{{largeDesktopScreen}}" condenses="1" condensed-header-height="64">
                     <paper-toolbar class="medium-tall">
                         <paper-icon-button icon="arrow-back" list-toggle hidden$="{{largeScreen}}"></paper-icon-button>
                     </paper-toolbar>
                     <div class="list-view-container">
-                        <paper-card heading="Card Title">
-                            <div class="card-content">Some content</div>
-                            <div class="card-actions">
-                                <paper-button>Some action</paper-button>
-                            </div>
-                        </paper-card>
+                        <template is='dom-if' if="{{ itemSelected }}">
+                            <h2>Item selected</h2>
+                        </template>
+                        <template is='dom-if' if="{{ ! itemSelected }}">
+                            <h2>No item selected</h2>
+                        </template>
                     </div>
                 </paper-scroll-header-panel>
             </paper-drawer-panel>
-
-
-            <!--<paper-toolbar class="tall">-->
-
-                <!--&lt;!&ndash; flex class forces span to fill space between icons &ndash;&gt;-->
-                <!--<div hidden$="[[!title]]" class="middle title">[[ title ]]</div>-->
-
-
-
-                <!--<content select="paper-tabs, [view-tabs]"></content>-->
-
-            <!--</paper-toolbar>-->
-            <!--<div class="content">-->
-                <!--<content select="[main]"></content>-->
-            <!--</div>-->
 
     </template>
 
@@ -189,7 +162,14 @@
                     value: false,
                     observer: 'onScreenSizeChange'
 
-                }
+                },
+                items : Array
+            },
+
+
+            ready: function()
+            {
+                this.itemSelected = false;
             },
 
             onScreenSizeChange : function(isLargeScreen)
@@ -208,6 +188,7 @@
             },
 
             _listTap : function() {
+                this.itemSelected = true;
                 this.$.drawerLayout.openDrawer();
             }
 

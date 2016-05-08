@@ -6,14 +6,7 @@
     <template>
         <layout-master app-title="APP NAME">
 
-            <iron-ajax
-                    auto
-                    url="http://homestead.dev/list"
-                    handle-as="json"
-                    last-response="@{{items}}"
-                    debounce-duration="300"></iron-ajax>
-
-            <list-view title="Module Name" items="@{{items}}"></list-view>
+            <list-view title="Module Name"></list-view>
 
         </layout-master>
     </template>

@@ -21,10 +21,9 @@
             }
 
             .list-container {
-                position: relative;
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
+                /*@apply(--layout-fit);*/
+                min-height:300px;
+                height:auto;
             }
 
             .list-panel {
@@ -38,69 +37,10 @@
             }
 
 
-            .list {
-                padding: 0;
-            }
-
-            .list paper-item{
-                height: 80px !important;
-                border-bottom: 1px solid #dedede !important;
-                background-color: #fafafa !important;
-            }
-
             .list-view-container {
                 display: flex;
                 flex-direction: column;
                 padding: 8px;
-            }
-
-
-            paper-button.custom {
-                --paper-button-ink-color: var(--paper-pink-a200);
-                /* These could also be individually defined for each of the
-                  specific css classes, but we'll just do it once as an example */
-                --paper-button-flat-keyboard-focus: {
-                    background-color: var(--paper-pink-a200);
-                    color: white !important;
-                };
-                --paper-button-raised-keyboard-focus: {
-                    background-color: var(--paper-pink-a200) !important;
-                    color: white !important;
-                };
-            }
-            paper-button.custom:hover {
-                background-color: var(--paper-indigo-100);
-            }
-
-            paper-button.red {
-                background-color: var(--paper-red-500);
-                color: white;
-                --paper-button-raised-keyboard-focus: {
-                    background-color: var(--paper-red-a200) !important;
-                    color: white !important;
-                };
-            }
-
-            paper-button.pink {
-                color: var(--paper-pink-a200);
-            }
-            paper-button.indigo {
-                background-color: var(--paper-indigo-500);
-                color: white;
-                --paper-button-raised-keyboard-focus: {
-                    background-color: var(--paper-pink-a200) !important;
-                    color: white !important;
-                };
-            }
-            paper-button.green {
-                background-color: var(--paper-green-500);
-                color: white;
-            }
-            paper-button.green[active] {
-                background-color: var(--paper-red-500);
-            }
-            paper-button.disabled {
-                color: white;
             }
 
             paper-fab.bottom-right{
@@ -108,31 +48,94 @@
                 bottom: 16px;
                 right: 16px;
             }
+
+
+
+            .list-item {
+                @apply(--layout-horizontal);
+                cursor: pointer;
+                height: 80px;
+                padding: 16px 22px;
+                border-bottom: 1px solid #DDD;
+            }
+
+            .list-item:focus,
+            .list-item.selected:focus {
+                outline: 0;
+                background-color: #ddd;
+            }
+
+            .list-item.selected {
+                background-color: var(--google-grey-300);
+                border-bottom: 1px solid #ccc;
+            }
+
+            .list-item .avatar {
+                height: 40px;
+                width: 40px;
+                border-radius: 20px;
+                box-sizing: border-box;
+                background-color: #ddd;
+            }
+
+            .list-item .pad {
+                @apply(--layout-flex);
+                @apply(--layout-vertical);
+                padding: 0 16px;
+            }
+
+            .list-item .primary {
+                font-size: 16px;
+            }
+            .list-item .secondary {
+                font-size: 14px;
+            }
+            .list-item .dim {
+                color: gray;
+            }
+
+
+
         </style>
 
         <iron-media-query query="(min-width: 1024px)" query-matches="{{largeScreen}}"></iron-media-query>
         <iron-media-query query="(min-width: 1280px)" query-matches="{{largeDesktopScreen}}"></iron-media-query>
 
+        <iron-ajax
+                auto
+                url="{{ ajaxUrl }}"
+                handle-as="json"
+                last-response="{{items}}"
+                debounce-duration="300"></iron-ajax>
+
             <paper-drawer-panel right-drawer id="drawerLayout" responsive-width="1024px" drawer-toggle-attribute="list-toggle">
-                <div main class="list-container">
-                    <paper-scroll-header-panel main class="list-panel" fixed="{{largeDesktopScreen}}" condenses="1" condensed-header-height="64">
+
+                    <paper-scroll-header-panel id="scrollheaderpanel" main class="list-panel" fixed="{{largeDesktopScreen}}" condenses="1" condensed-header-height="64">
 
                         <paper-toolbar class="medium-tall">
                             <div hidden$="[[!title]]" class="bottom title">[[ title ]]</div>
                         </paper-toolbar>
 
-                        <paper-menu class="list" on-iron-activate="_listTap">
-
-                            <template is="dom-repeat" items="{{items}}">
-                                <paper-item class="list-item">{{ item.label }}</paper-item>
+                        <iron-list class="list-container" items="[[items]]" as="item" selected-item="{{selectedItem}}" selection-enabled >
+                            <template>
+                                <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.label]]" class$="[[_computedListItemClass(selected)]]" on-tap="_listTap">
+                                    <img class="avatar" src="https://randomuser.me/api/portraits/thumb/men/10.jpg">
+                                    <div class="pad">
+                                        <div class="primary">
+                                            [[item.name]]
+                                        </div>
+                                        <div class="secondary dim">[[item.email]]</div>
+                                    </div>
+                                </div>
+                                <div class="border"></div>
                             </template>
+                        </iron-list>
 
-                        </paper-menu>
 
                     </paper-scroll-header-panel>
 
                     <paper-fab icon="add" class="bottom-right" elevation="1"></paper-fab>
-                </div>
+
 
                 <paper-scroll-header-panel drawer fixed="{{largeDesktopScreen}}" condenses="1" condensed-header-height="64">
                     <paper-toolbar class="medium-tall">
@@ -140,7 +143,7 @@
                     </paper-toolbar>
                     <div class="list-view-container">
                         <template is='dom-if' if="{{ itemSelected }}">
-                            <h2>Item selected</h2>
+                            <h2>[[selectedItem.name]]</h2>
                         </template>
                         <template is='dom-if' if="{{ ! itemSelected }}">
                             <h2>No item selected</h2>
@@ -163,13 +166,27 @@
                     observer: 'onScreenSizeChange'
 
                 },
-                items : Array
+                selectedItem: {
+                    type: Object,
+                    value: null,
+                    observer: 'onSelectedItemChanged'
+                },
+
+                items : {
+                    type: Array,
+                    value: []
+                },
+                ajaxUrl: {
+                    type: String,
+                    value: "http://homestead.dev/list"
+                }
             },
 
 
             ready: function()
             {
                 this.itemSelected = false;
+                console.log('ajax url:'+this.ajaxUrl);
             },
 
             onScreenSizeChange : function(isLargeScreen)
@@ -187,9 +204,28 @@
                 }
             },
 
+            onSelectedItemChanged : function(selectedItem)
+            {
+                if(selectedItem === null)
+                {
+                    this.itemSelected = false;
+                }
+                else {
+                    this.itemSelected = true;
+                }
+            },
+
             _listTap : function() {
-                this.itemSelected = true;
+
                 this.$.drawerLayout.openDrawer();
+            },
+
+            _computedListItemClass : function(isSelected) {
+                var classes = 'list-item';
+                if (isSelected) {
+                    classes += ' selected';
+                }
+                return classes;
             }
 
         });

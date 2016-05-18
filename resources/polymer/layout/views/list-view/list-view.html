@@ -22,7 +22,7 @@
 
             .list-container {
                 /*@apply(--layout-fit);*/
-                min-height:300px;
+                min-height:1000px;
                 height:auto;
             }
 
@@ -44,9 +44,18 @@
             }
 
             paper-fab.bottom-right{
-                position: absolute;
+                position: fixed;
                 bottom: 16px;
                 right: 16px;
+            }
+
+            paper-progress {
+                --paper-progress-active-color: #00e3ff;
+            }
+
+            .search-box {
+                height:68px;
+
             }
 
 
@@ -94,6 +103,17 @@
                 color: gray;
             }
 
+            .loadingIndicator {
+                text-align: center;
+                height: 40px;
+            }
+
+            .loadingIndicator paper-spinner {
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+            }
+
 
 
         </style>
@@ -102,39 +122,55 @@
         <iron-media-query query="(min-width: 1280px)" query-matches="{{largeDesktopScreen}}"></iron-media-query>
 
         <iron-ajax
-                auto
-                url="{{ ajaxUrl }}"
+                id="ajax"
+                url="[[ ajaxUrl ]]"
+                params='{{ ajaxParams }}'
                 handle-as="json"
-                last-response="{{items}}"
+                on-response="_gotAjaxResponse"
+                loading="{{ajaxLoadingInProgress}}"
                 debounce-duration="300"></iron-ajax>
 
-            <paper-drawer-panel right-drawer id="drawerLayout" responsive-width="1024px" drawer-toggle-attribute="list-toggle">
+            <paper-drawer-panel right-drawer id="drawerLayout" responsive-width="1024px" drawer-toggle-attribute="list-toggle" selected="{{selectedPanel}}">
 
-                    <paper-scroll-header-panel id="scrollheaderpanel" main class="list-panel" fixed="{{largeDesktopScreen}}" condenses="1" condensed-header-height="64">
+                    <paper-scroll-header-panel id="scrollheaderpanel" main class="list-panel" fixed="{{largeDesktopScreen}}" condenses condensed-header-height="64">
 
                         <paper-toolbar class="medium-tall">
-                            <div hidden$="[[!title]]" class="bottom title">[[ title ]]</div>
+                            <div hidden$="[[!title]]" class="middle title">[[ title ]] > {{items.length}} items</div>
+
+                            <paper-icon-button icon="search" class="middle left"></paper-icon-button>
+                            <paper-icon-button icon="refresh" class="middle right"></paper-icon-button>
+                            <paper-icon-button icon="add" class="middle right" hidden$="{{! largeScreen}}">+</paper-icon-button>
+
+                            <paper-progress class="middle fit" indeterminate hidden$="{{! ajaxLoadingInProgress}}"></paper-progress>
                         </paper-toolbar>
 
-                        <iron-list class="list-container" items="[[items]]" as="item" selected-item="{{selectedItem}}" selection-enabled >
-                            <template>
-                                <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.label]]" class$="[[_computedListItemClass(selected)]]" on-tap="_listTap">
-                                    <img class="avatar" src="https://randomuser.me/api/portraits/thumb/men/10.jpg">
-                                    <div class="pad">
-                                        <div class="primary">
-                                            [[item.name]]
+                        <iron-scroll-threshold  id="scrollThreshold" lower-triggered="{{triggered}}" on-lower-threshold="_loadMoreData" >
+                            <iron-list id='list' class="list-container" items="{{items}}" as="item" selected-item="{{selectedItem}}" selection-enabled >
+                                <template>
+                                    <div tabindex$="[[tabIndex]]" aria-label$="Select/Deselect [[item.label]]" class$="[[_computedListItemClass(selected)]]" on-tap="_listTap">
+                                        <img class="avatar" src="https://randomuser.me/api/portraits/thumb/men/10.jpg">
+                                        <div class="pad">
+                                            <div class="primary">
+                                                [[item.name]]
+                                            </div>
+                                            <div class="secondary dim">[[item.email]]</div>
                                         </div>
-                                        <div class="secondary dim">[[item.email]]</div>
                                     </div>
-                                </div>
-                                <div class="border"></div>
-                            </template>
-                        </iron-list>
+                                    <div class="border"></div>
+                                </template>
+                            </iron-list>
+
+                            <div class="loadingIndicator">
+                                <paper-spinner active="{{ajaxLoadingInProgress}}"></paper-spinner> Fetching data
+                            </div>
+                        </iron-scroll-threshold>
+
+                        <paper-fab icon="add" class="bottom-right" elevation="1" hidden$="{{itemSelected === 'drawer'}}"></paper-fab>
 
 
                     </paper-scroll-header-panel>
 
-                    <paper-fab icon="add" class="bottom-right" elevation="1"></paper-fab>
+
 
 
                 <paper-scroll-header-panel drawer fixed="{{largeDesktopScreen}}" condenses="1" condensed-header-height="64">
@@ -155,10 +191,15 @@
     </template>
 
     <script>
+
         Polymer({
             is: 'list-view',
 
             properties: {
+                pageNumber: {
+                    type: Number,
+                    value: 1
+                },
                 title : String,
                 largeScreen: {
                     type: Boolean,
@@ -178,8 +219,14 @@
                 },
                 ajaxUrl: {
                     type: String,
-                    value: "http://homestead.dev/list"
+                    value: "/"
+                },
+                ajaxParams: {
+                    type: Object,
+                    computed : 'computeAjaxParams(pageNumber)'
                 }
+
+
             },
 
 
@@ -187,6 +234,13 @@
             {
                 this.itemSelected = false;
                 console.log('ajax url:'+this.ajaxUrl);
+
+                //bind paper-scroll-header-panel scroller property to iron-threshold and iron-list scrollTarget
+                this.$.list.scrollTarget = this.$.scrollheaderpanel.scroller;
+                this.$.scrollThreshold.scrollTarget = this.$.scrollheaderpanel.scroller;
+
+                //load ajax
+                this.$.ajax.generateRequest();
             },
 
             onScreenSizeChange : function(isLargeScreen)
@@ -215,6 +269,14 @@
                 }
             },
 
+
+            computeAjaxParams: function(pageNum)
+            {
+                return {
+                    page : pageNum
+                };
+            },
+
             _listTap : function() {
 
                 this.$.drawerLayout.openDrawer();
@@ -226,6 +288,35 @@
                     classes += ' selected';
                 }
                 return classes;
+            },
+
+            _loadMoreData : function()
+            {
+                console.log('loading more data func called');
+
+                this.pageNumber = this.pageNumber + 1;
+
+                this.$.ajax.generateRequest();
+
+            },
+
+            _gotAjaxResponse : function(e)
+            {
+                console.log('gotAjaxResponse called');
+                var xitems = e.detail.response;
+
+                var scope = this;
+
+                xitems.forEach(function(item) {
+                    scope.$.list.push('items', item);
+                });
+
+                console.log('items', xitems);
+                console.log('scope items', scope.items);
+                console.log('this items', this.items);
+
+                // Clear the lower threshold so we can load more data when the user scrolls down again.
+                this.$.scrollThreshold.clearTriggers();
             }
 
         });

@@ -6,7 +6,7 @@
     <template>
         <layout-master app-title="APP NAME">
 
-            <list-view title="Module Name"></list-view>
+            <list-view title="Module Name" ajax-url="/list"></list-view>
 
         </layout-master>
     </template>
